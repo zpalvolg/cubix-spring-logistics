@@ -1,1 +1,1 @@
-# cubix-spring-logistics
+# Backend development with Java Spring Boot: Exam task
