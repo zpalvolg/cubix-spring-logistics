@@ -7,6 +7,9 @@ import hu.cubix.spring.zpalvolgyi.logistics.repository.AddressRepository;
 import hu.cubix.spring.zpalvolgyi.logistics.repository.MilestoneRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,5 +69,28 @@ public class AddressService {
         milestoneRepository.saveAll(milestones);
 
         addressRepository.deleteById(id);
+    }
+
+    public Page<Address> findByExample(Address example, Pageable pageable) {
+        String country = example.getCountry() == null ? "" : example.getCountry();
+        String city = example.getCity() == null ? "" : example.getCity();
+        String street = example.getStreet() == null ? "" : example.getStreet() ;
+        String zipCode = example.getZipCode() == null ? "" : example.getZipCode();
+
+        Specification<Address> spec = Specification.where(null);
+
+        if(!country.isEmpty())
+            spec = spec.and(AddressSpecifications.hasCountry(country));
+
+        if(!city.isEmpty())
+            spec = spec.and(AddressSpecifications.hasCity(city));
+
+        if(!street.isEmpty())
+            spec = spec.and(AddressSpecifications.hasStreet(street));
+
+        if(!zipCode.isEmpty())
+            spec = spec.and(AddressSpecifications.hasZipCode(zipCode));
+
+        return addressRepository.findAll(spec, pageable);
     }
 }

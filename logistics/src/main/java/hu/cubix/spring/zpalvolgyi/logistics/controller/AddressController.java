@@ -5,6 +5,8 @@ import hu.cubix.spring.zpalvolgyi.logistics.mapper.AddressMapper;
 import hu.cubix.spring.zpalvolgyi.logistics.model.Address;
 import hu.cubix.spring.zpalvolgyi.logistics.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -68,5 +70,12 @@ public class AddressController {
         Address updatedAddress = addressService.save(address);
 
         return addressMapper.addressToDto(updatedAddress);
+    }
+
+    @PostMapping(value = "/search")
+    public List<AddressDto> findByExample(@RequestBody AddressDto exampleDto, Pageable pageable) {
+        Address example = addressMapper.dtoToAddress(exampleDto);
+        Page<Address> page = addressService.findByExample(example, pageable);
+        return addressMapper.addressesToDtos(page.getContent());
     }
 }
