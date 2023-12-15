@@ -46,15 +46,30 @@ public class InitDbService {
         Address address3 = addressRepository.save(new Address("FR", "Paris", "Champs-Élysées", "75008", "789", 48.8566, 2.3522));
         Address address4 = addressRepository.save(new Address("JP", "Tokyo", "Shibuya", "150-0041", "101", 35.6895, 139.6917));
 
+        Address address5 = addressRepository.save(new Address("CA", "Toronto", "Yonge Street", "M5B 1R4", "789", 43.6532, -79.3832));
+        Address address6 = addressRepository.save(new Address("AU", "Sydney", "George Street", "2000", "456", -33.8688, 151.2093));
+        Address address7 = addressRepository.save(new Address("DE", "Berlin", "Friedrichstraße", "10117", "101", 52.5200, 13.4050));
+        Address address8 = addressRepository.save(new Address("BR", "São Paulo", "Avenida Paulista", "01310-100", "123", -23.5505, -46.6333));
+
+
         Milestone milestone1 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(1), address1));
         Milestone milestone2 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(2), address2));
         Milestone milestone3 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(3), address3));
         Milestone milestone4 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(4), address4));
 
+        Milestone milestone5 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(1), address5));
+        Milestone milestone6 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(2), address6));
+        Milestone milestone7 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(3), address7));
+        Milestone milestone8 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(4), address8));
+
         TransportPlan transportPlan1 = transportPlanRepository.save(new TransportPlan(123.456));
+        TransportPlan transportPlan2 = transportPlanRepository.save(new TransportPlan(456.123));
 
         Section section1 = sectionRepository.save(new Section(1,milestone1,milestone2,transportPlan1));
         Section section2 = sectionRepository.save(new Section(2,milestone3,milestone4,transportPlan1));
+
+        Section section3 = sectionRepository.save(new Section(1,milestone5,milestone6,transportPlan2));
+        Section section4 = sectionRepository.save(new Section(2,milestone7,milestone8,transportPlan2));
 
     }
 }
