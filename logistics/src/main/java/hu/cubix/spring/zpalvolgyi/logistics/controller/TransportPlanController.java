@@ -2,6 +2,7 @@ package hu.cubix.spring.zpalvolgyi.logistics.controller;
 
 import hu.cubix.spring.zpalvolgyi.logistics.dto.DelayDto;
 import hu.cubix.spring.zpalvolgyi.logistics.model.Milestone;
+import hu.cubix.spring.zpalvolgyi.logistics.model.Section;
 import hu.cubix.spring.zpalvolgyi.logistics.model.TransportPlan;
 import hu.cubix.spring.zpalvolgyi.logistics.service.MilestoneService;
 import hu.cubix.spring.zpalvolgyi.logistics.service.SectionService;
@@ -28,6 +29,7 @@ public class TransportPlanController {
     public void delay(@RequestBody DelayDto delayDto, @PathVariable long id){
         long milestoneId = delayDto.getMilestoneId();
         long transportPlanId = id;
+        int duration = delayDto.getDuration();
 
         TransportPlan transportPlan = transportPlanService.findById(transportPlanId);
         if(transportPlan == null)
@@ -37,7 +39,11 @@ public class TransportPlanController {
         if(milestone == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-        if(sectionService.findByMilestoneAndTransportPlan(milestoneId,transportPlanId) == 0)
+        Section section = sectionService.findByMilestoneAndTransportPlan(milestoneId,transportPlanId);
+
+        if(section == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
+        transportPlanService.handleDelay(section, milestoneId ,duration);
     }
 }

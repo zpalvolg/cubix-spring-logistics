@@ -62,14 +62,13 @@ public class InitDbService {
         Milestone milestone7 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(3), address7));
         Milestone milestone8 = milestoneRepository.save(new Milestone(LocalDateTime.now().plusDays(4), address8));
 
-        TransportPlan transportPlan1 = transportPlanRepository.save(new TransportPlan(123.456));
-        TransportPlan transportPlan2 = transportPlanRepository.save(new TransportPlan(456.123));
+        TransportPlan transportPlan1 = transportPlanRepository.save(new TransportPlan(100));
+        TransportPlan transportPlan2 = transportPlanRepository.save(new TransportPlan(200));
 
         Section section1 = sectionRepository.save(new Section(1,milestone1,milestone2,transportPlan1));
         Section section2 = sectionRepository.save(new Section(2,milestone3,milestone4,transportPlan1));
 
         Section section3 = sectionRepository.save(new Section(1,milestone5,milestone6,transportPlan2));
         Section section4 = sectionRepository.save(new Section(2,milestone7,milestone8,transportPlan2));
-
     }
 }
