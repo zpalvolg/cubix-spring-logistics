@@ -32,6 +32,8 @@ public class TransportPlanController {
         int duration = delayDto.getDuration();
 
         TransportPlan transportPlan = transportPlanService.findById(transportPlanId);
+
+        //In case of non-existing transport plan or milestone
         if(transportPlan == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
@@ -39,11 +41,12 @@ public class TransportPlanController {
         if(milestone == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
+        //if the milestone with the specified id is not part of any sections of the given transport plan
         Section section = sectionService.findByMilestoneAndTransportPlan(milestoneId,transportPlanId);
-
         if(section == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
+        //response should be 200 OK otherwise
         transportPlanService.handleDelay(section, milestoneId ,duration);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class AddressService {
         return addressRepository.findAll();
     }
 
+    @PreAuthorize("hasAuthority('AddressManager')")
     public Address save(Address address){
         return addressRepository.save(address);
     }
@@ -62,6 +64,7 @@ public class AddressService {
     }
 
     @Transactional
+    @PreAuthorize("hasAuthority('AddressManager')")
     public void deleteById(long id){
         //remove address from milestone to not violate foreign key constraint
         List<Milestone> milestones = milestoneRepository.findByAddressId(id);

@@ -9,6 +9,7 @@ import hu.cubix.spring.zpalvolgyi.logistics.repository.SectionRepository;
 import hu.cubix.spring.zpalvolgyi.logistics.repository.TransportPlanRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,7 @@ public class TransportPlanService {
     }
 
     @Transactional
+    @PreAuthorize("hasAuthority('TransportManager')")
     public void handleDelay(Section section,long milestoneId, int duration){
         //Add the delay to the planned time of the milestone
         Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
